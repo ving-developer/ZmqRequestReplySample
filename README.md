@@ -38,7 +38,7 @@
   Its implementation consists of a very lightweight messaging system, specially designed for high throughput/low latency scenarios. Furthermore, __ØMQ__ is completely decoupled and can implement any messaging protocol, unlike other technologies such as __RabbitMQ__, which natively implements __AMQP__.
 
 <div align="center">
-   <img width="800" src=".\assets\amqp-example.png"/>
+   <img width="800" src=".\docs\assets\amqp-example.png"/>
    <br>
    <br>
 </div>
