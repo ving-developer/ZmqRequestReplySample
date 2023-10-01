@@ -33,7 +33,7 @@
 
 ## What is ØMQ?
 
-  __ZeroMQ__, or __ØMQ__, or even __ZMQ__, is a tool aimed at asynchronous communication between servers. It offers several approaches for communicating via __socket__ using [unicast](https://zguide.zeromq.org/docs/chapter2/#Unicast-Transports) or [multicast](https://zguide.zeromq.org/docs/chapter5 /).
+  __ZeroMQ__, or __ØMQ__, or even __ZMQ__, is a tool aimed at asynchronous communication between servers. It offers several approaches for communicating via __socket__ using [unicast](https://zguide.zeromq.org/docs/chapter2/#Unicast-Transports) or [multicast](https://zguide.zeromq.org/docs/chapter5/).
 
   Its implementation consists of a very lightweight messaging system, specially designed for high throughput/low latency scenarios. Furthermore, __ØMQ__ is completely decoupled and can implement any messaging protocol, unlike other technologies such as __RabbitMQ__, which natively implements __AMQP__.
 
