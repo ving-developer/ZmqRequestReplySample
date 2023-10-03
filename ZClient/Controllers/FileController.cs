@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NetMQ;
 using NetMQ.Sockets;
+using System;
 
 namespace ZClient.Controllers
 {
@@ -16,6 +17,7 @@ namespace ZClient.Controllers
         }
 
         [HttpPost("pdf")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileContentResult))]
         public IActionResult GetPdf([FromBody] string content)
         {
             _logger.LogDebug($"Executing file/pdf with content:\n{content}");
@@ -24,11 +26,11 @@ namespace ZClient.Controllers
             {
                 client.SendFrame(content);
 
-                var response = client.ReceiveFrameString();
+                var response = client.ReceiveFrameBytes();
 
                 _logger.LogDebug($"Finish file/pdf with content:\n{content}");
 
-                return Ok(response);
+                return File(response, "application/octet-stream", $"{ (new Random()).Next(0, 10001) }.pdf");
             }
 
             return null;

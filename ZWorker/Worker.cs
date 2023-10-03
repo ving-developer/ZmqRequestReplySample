@@ -1,3 +1,5 @@
+using iTextSharp.text.pdf;
+using iTextSharp.text;
 using NetMQ;
 using NetMQ.Sockets;
 
@@ -39,11 +41,21 @@ public class Worker : BackgroundService
 
             _logger.LogInformation($"Received {request}");
 
-            // Do some 'work'
-            //Thread.Sleep(1);
+            var response = GeneratePdf(request);
 
             // Send reply back to client
-            server.SendFrame($"Hi Back {request}");
+            server.SendFrame(response);
         }
+    }
+
+    private byte[] GeneratePdf(string content)
+    {
+        using MemoryStream ms = new MemoryStream();
+        Document document = new Document();
+        PdfWriter writer = PdfWriter.GetInstance(document, ms);
+        document.Open();
+        document.Add(new Paragraph(content));
+        document.Close();
+        return ms.ToArray();
     }
 }
