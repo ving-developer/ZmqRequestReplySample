@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using ZeroMQ;
+using NetMQ;
+using NetMQ.Sockets;
 
 namespace ZClient.Controllers
 {
@@ -15,31 +16,19 @@ namespace ZClient.Controllers
         }
 
         [HttpPost("pdf")]
-        public IEnumerable<IActionResult> GetPdf([FromBody]string content)
+        public IActionResult GetPdf([FromBody] string content)
         {
-            //
-            // Hello World client
-            // Connects REQ socket to tcp://127.0.0.1:5559
-            // Sends "Hello" to server, expects "World" back
-            //
-            // Author: metadings
-            //
+            _logger.LogDebug($"Executing file/pdf with content:\n{content}");
 
-            // Socket to talk to server
-            using (var context = new ZContext())
-            using (var requester = new ZSocket(context, ZSocketType.REQ))
+            using (var client = new RequestSocket(">tcp://localhost:5559"))
             {
-                requester.Connect("tcp://127.0.0.1:5559");
+                client.SendFrame(content);
 
-                for (int n = 0; n < 10; ++n)
-                {
-                    requester.Send(new ZFrame(content));
+                var response = client.ReceiveFrameString();
 
-                    using (ZFrame reply = requester.ReceiveFrame())
-                    {
-                        Console.WriteLine("Hello {0}!", reply.ReadString());
-                    }
-                }
+                _logger.LogDebug($"Finish file/pdf with content:\n{content}");
+
+                return Ok(response);
             }
 
             return null;
