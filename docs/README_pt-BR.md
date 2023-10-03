@@ -48,7 +48,9 @@ No final das contas, o __ØMQ__ é mais leve pois possui muito menos implementa�
 
 ## Padrões de mensageria suportados
 
-No __ØMQ__ existem vários tipos __sockets__, com as seguintes abordagens:
+No __ØMQ__, as mensagens são divididas em multiplas partes, onde cada parte é chamada de _frame_. Isto servirá para adicionar "cabeçalhos" em cada _frame_. O próprio zmq irá encarregar de entregar todos os _frames_ ou nenhum deles.
+
+No __ØMQ__, os tipos de conexão (__socket__) existentes são:
 
 - [inproc](http://api.zeromq.org/master:zmq-inproc) - utilizando a função `zmq_inproc()` para transportar mensagens via memória diretamente entre threads que compartilham um único contexto __ØMQ__. Pode ser utilizado em padrões [__Exclusive-pair__](https://zguide.zeromq.org/docs/chapter2/#Messaging-Patterns), conforme mostra a própria documentação.
   
@@ -69,4 +71,16 @@ No __ØMQ__ existem vários tipos __sockets__, com as seguintes abordagens:
 
 ## Request-Reply
 
+Se trata de um protocolo de comunicação onde o cliente faz uma requisição ao servidor, aguarda por uma resposta enquanto o servidor processa a requisição, e por fim, retorna uma resposta ao cliente. Para implementar este caso de uso, o [__ØMQ__](https://zguide.zeromq.org/) oferece um enpacotamento que separa a carga útil da mensagem, de um envelope.
 
+No envelope irá conter o endereço de retorno das respostas. É assim que mesmo o __ØMQ__ não guardando um estado, pode implementar aplicações de solicitação-resposta. A imagem abaixo, ilustra uma requisição recebida pelo servidor, onde o _frame 1_ é o endereço do cliente que fez a solicitação. Podendo capturar este endereço e enviar uma resposta à ele.
+
+<div align="center">
+  <img width="600" src=".\assets\zmq-frames.jpg"/>
+  <br>
+  <br>
+</div>
+
+### Implementação
+
+Aqui neste repositório, será implementada 
