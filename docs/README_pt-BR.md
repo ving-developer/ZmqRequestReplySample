@@ -151,7 +151,7 @@ using var poller = new NetMQPoller { backend, frontend };
 poller.Run();// Cria thread ficará ocupada escutando os eventos no Router e Dealer, chamando o ReceiveReady correspondente (configurado anteriormente)
 ```
 
-No servidor,
+No servidor, você deverá se conectar ao socket Dealer, aguardar por uma requisição vinda dele, processar ela e mandar o retorno ao Dealer para ser retransmitido ao cliente.
 
 ```cs
 using var server = new ResponseSocket();
